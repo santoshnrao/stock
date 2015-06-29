@@ -1,5 +1,6 @@
 *.class
 history/.idea/
+history/target/
 *.iml
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
