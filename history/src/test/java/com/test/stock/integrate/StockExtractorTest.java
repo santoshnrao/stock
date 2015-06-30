@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Created by i029249 on 6/29/15.
+ * Created by Santosh on 6/29/15.
  */
 public class StockExtractorTest {
 
@@ -24,7 +24,7 @@ public class StockExtractorTest {
 
     @Before
     public void setup(){
-
+        String a  = "tt";
     }
 
     @Test

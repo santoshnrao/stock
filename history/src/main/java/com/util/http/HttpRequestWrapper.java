@@ -15,7 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpRequestWrapper {
 
-	private static final boolean useProxyServer = false;
+	private static final boolean useProxyServer = true;
 
 	public static String HttpGet(String url) {
 		String responseBody = "";

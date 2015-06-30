@@ -16,7 +16,7 @@
     <javax.servlet.version>3.1.0</javax.servlet.version>
     <cors.filter.version>2.2.1</cors.filter.version>
     <olingo.version>2.0.0</olingo.version>
-    <httpclient.version>4.3.5</httpclient.version>
+    <httpclient.version>4.4.1</httpclient.version>
 
     <!-- test libraries -->
     <junit.version>4.4</junit.version>
@@ -35,12 +35,6 @@
   </properties>
 
   <dependencies>
-      <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>${junit.version}</version>
-          <scope>test</scope>
-      </dependency>
 
       <!-- Jersey Dependencies -->
     <dependency>
@@ -95,13 +89,6 @@
       <version>${olingo.version}</version>
       <scope>runtime</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>${httpclient.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>org.apache.santuario</groupId>
       <artifactId>xmlsec</artifactId>
@@ -202,7 +189,7 @@
       <dependency>
           <groupId>org.apache.httpcomponents</groupId>
           <artifactId>httpclient</artifactId>
-          <version>4.4.1</version>
+          <version>${httpclient.version}</version>
       </dependency>
       <!--mongodb driver -->
       <dependency>
@@ -239,7 +226,7 @@
               <version>${jetty.plugin.version}</version>
               <configuration>
                   <httpConnector>
-                      <port>8080</port>
+                      <port>8888</port>
                   </httpConnector>
                   <scanIntervalSeconds>10</scanIntervalSeconds>
                   <webApp>
