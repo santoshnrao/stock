@@ -1,5 +1,6 @@
 package com.extract;
 
+import com.db.mongo.ManageCollection;
 import com.db.mongo.MongoConnect;
 import com.stock.integrate.StockExtractor;
 import org.json.JSONArray;
@@ -13,8 +14,14 @@ import java.util.GregorianCalendar;
 public class Extractor {
 
     private StockExtractor _stockExtractor = new StockExtractor();
+    private int extractionInterval = Calendar.YEAR;
     private final Calendar _endDate  = new GregorianCalendar(1900,0,1);
-    private MongoConnect _mongoConnect = new MongoConnect();
+    private ManageCollection manageCollection = new ManageCollection();
+
+    public void setExtractionInterval(int interval){
+        extractionInterval = interval;
+
+    }
 
     public boolean updateToCurrentDate(String StockID, Calendar lastExtractionDate){
 
@@ -29,18 +36,18 @@ public class Extractor {
         while(startDate.getTimeInMillis() <= currentDate.getTimeInMillis()){
 
 
-            nextInterval.add(Calendar.MONTH,1);
+            nextInterval.add(extractionInterval,1);
 
             if(nextInterval.getTimeInMillis() > currentDate.getTimeInMillis()){
                 nextInterval = currentDate;
             }
 
-            JSONArray quotesMonthly = getQuote(StockID,startDate,nextInterval);
-            if(quotesMonthly != null){
-                _mongoConnect.storeJsonArrray(quotesMonthly);
+            JSONArray stockPrices = getStockPrices(StockID,startDate,nextInterval);
+            if(stockPrices != null){
+                manageCollection.insertStock(stockPrices);
             }
 
-            startDate.add(Calendar.MONTH,1);
+            startDate.add(extractionInterval,1);
 
         }
 
@@ -50,18 +57,11 @@ public class Extractor {
 
     }
 
-    private JSONArray getQuote(String StockID, Calendar startDate, Calendar endDate){
+    private JSONArray getStockPrices(String StockID, Calendar startDate, Calendar endDate){
 
         return _stockExtractor.getHistoricStockData(StockID,startDate,endDate);
 
     }
-
-    private boolean _storeData(JSONArray jsonArray){
-        return true;
-    }
-
-
-
 
 
 

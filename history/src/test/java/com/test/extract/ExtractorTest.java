@@ -18,14 +18,14 @@ public class ExtractorTest {
 
     @Before
     public void setup(){
-
+        extractor.setExtractionInterval(Calendar.MONTH);
     }
 
     @Test
-    public void extractMonthly(){
+    public void extractYearly(){
 
         Calendar date = new GregorianCalendar();
-        date.add(Calendar.MONTH , -2);
+        date.add(Calendar.YEAR , -2);
         boolean status =  extractor.updateToCurrentDate(TestConstants._TEST_STOCK_ID,date);
         Assert.assertEquals(status,true);
 
