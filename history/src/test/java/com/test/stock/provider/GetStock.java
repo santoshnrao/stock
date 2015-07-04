@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
 
 
 /**
- * Created by i029249 on 6/28/15.
+ * Created by Santosh on 6/28/15.
  */
 public class GetStock {
 
@@ -26,7 +26,7 @@ public class GetStock {
         yQL = new YahooQL();
     }
 
-    @Test
+//    @Test
     public void getYahooQuote(){
 
         String quoteResonse = yQL.getCurrentStockValue(_TEST_STOCK_SYMBOL);
@@ -35,7 +35,7 @@ public class GetStock {
 
     }
 
-    @Test
+//    @Test
     public  void getStockHistory(){
         //Set Start Date and End Date
         Calendar startDate = new GregorianCalendar(2012,0,1);

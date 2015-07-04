@@ -6,6 +6,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
@@ -15,12 +16,12 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpRequestWrapper {
 
-	private static final boolean useProxyServer = false;
+	private final boolean useProxyServer = false;
 
-	public static String HttpGet(String url) {
+	public String HttpGet(String url) {
 		String responseBody = "";
 
-		CloseableHttpClient httpclient = HttpClients.createDefault();
+		CloseableHttpClient httpclient = HttpClients.createMinimal();
 		try {
 			HttpGet httpget = new HttpGet(url);
 
@@ -61,7 +62,7 @@ public class HttpRequestWrapper {
 		return responseBody;
 	}
 
-	public static RequestConfig getProxyConfig() {
+	public  RequestConfig getProxyConfig() {
 
 		HttpHost proxy = new HttpHost("proxy", 8080, "http");
 

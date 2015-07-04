@@ -41,7 +41,7 @@ public class YahooQL implements IStock{
             e.printStackTrace();
         }
 
-        String responseString = HttpRequestWrapper.HttpGet(uri.toString());
+        String responseString = new HttpRequestWrapper().HttpGet(uri.toString());
         return responseString;
     }
 
@@ -63,8 +63,8 @@ public class YahooQL implements IStock{
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        System.out.println(uri.toASCIIString());
-        String responseString = HttpRequestWrapper.HttpGet(uri.toString());
+//        System.out.println(uri.toASCIIString());
+        String responseString = new HttpRequestWrapper().HttpGet(uri.toString());
         return responseString;
 
     }

@@ -19,7 +19,7 @@ public class StockToDB {
             internalFormat = jsonQueryResult.getJSONArray("quote");
 
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
 

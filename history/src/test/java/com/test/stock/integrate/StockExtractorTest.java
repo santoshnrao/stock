@@ -27,7 +27,7 @@ public class StockExtractorTest {
         String a  = "tt";
     }
 
-    @Test
+//    @Test
     public  void  getStockAndConvert(){
 
         JSONArray stockData =  stockExtractor.getHistoricStockData(_TEST_STOCK_SYMBOL,startDate,endDate);

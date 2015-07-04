@@ -27,13 +27,13 @@ public class StoreDataTest {
 
 
     }
-    @Test
+//    @Test
     public void testStorage(){
         boolean storeSuccess =  _mongoConnect.storeData();
         Assert.assertEquals(storeSuccess, true);
     }
 
-    @Test
+//    @Test
 
     public  void  storeJsonArray(){
 
@@ -56,7 +56,7 @@ public class StoreDataTest {
     }
 
 
-    @Test
+//    @Test
     public void insertStockInfoTest(){
         JSONArray jsonArray = new JSONArray();
         JSONObject stockInfo = new JSONObject();
@@ -75,7 +75,7 @@ public class StoreDataTest {
         Assert.assertEquals(status, true);
     }
 
-    @Test
+//    @Test
     public void getByID(){
 
         JSONArray stockInfo =  manageCollection.getStockInfo("YHOO");
@@ -84,16 +84,66 @@ public class StoreDataTest {
 
     }
 
-    @Test
+//    @Test
 
     public void udpateStockInfoTest(){
         JSONObject stockInfo = new JSONObject();
-        stockInfo.put("Symbol", "APPL");
+        stockInfo.put("Symbol", "YHOO");
         stockInfo.put("Start_Date", "2000-01-01");
         stockInfo.put("End_Date", "2012-01-01");
 
         boolean status = manageCollection.updateStockInfo(stockInfo);
+        Assert.assertEquals(status, true);
+    }
+
+
+//    @Test
+
+    public void insertStockInfoWithSymbol(){
+        JSONObject stockInfo = new JSONObject();
+        stockInfo.put("Symbol", "YHOO");
+        stockInfo.put("Start_Date", "1980-00-01");
+        stockInfo.put("End_Date", "1980-01-01");
+        JSONArray stockInfoArray = new JSONArray();
+        stockInfoArray.put(stockInfo);
+
+        boolean status = manageCollection.insertStockInfo(stockInfoArray);
         Assert.assertEquals(status,true);
+    }
+
+    @Test
+    public void buldUpsertTest(){
+
+        JSONObject stockInfoYahoo = new JSONObject();
+        stockInfoYahoo.put("Symbol", "YHOO");
+        stockInfoYahoo.put("Start_Date", "1980-00-01");
+        stockInfoYahoo.put("End_Date", "1980-01-01");
+        JSONArray stockInfoArray = new JSONArray();
+        stockInfoArray.put(stockInfoYahoo);
+
+        JSONObject stockInfoAPPL = new JSONObject();
+        stockInfoAPPL.put("Symbol", "APPL");
+        stockInfoAPPL.put("Start_Date", "1980-00-01");
+        stockInfoAPPL.put("End_Date", "1980-01-01");
+        stockInfoArray.put(stockInfoAPPL);
+
+        boolean status = manageCollection.insertStockInfo(stockInfoArray);
+        if(status == true){
+            stockInfoAPPL.put("Start_Date","2000-00-01");
+            stockInfoYahoo.put("Start_Date","2000-00-01");
+            stockInfoArray = new JSONArray();
+            stockInfoArray.put(stockInfoAPPL);
+            stockInfoArray.put(stockInfoYahoo);
+            status =  manageCollection.upsertStockInfo(stockInfoArray);
+            Assert.assertEquals(status,true);
+
+        }else{
+            Assert.assertEquals(status,true);
+        }
+
+
+
+
     }
 
 
