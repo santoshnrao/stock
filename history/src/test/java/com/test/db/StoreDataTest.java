@@ -22,19 +22,13 @@ public class StoreDataTest {
     @Before
     public void setupMongoTest(){
 
-        _mongoConnect = new MongoConnect();
+        _mongoConnect =  MongoConnect.getMongoConnect();
         manageCollection = new ManageCollection();
 
 
     }
-//    @Test
-    public void testStorage(){
-        boolean storeSuccess =  _mongoConnect.storeData();
-        Assert.assertEquals(storeSuccess, true);
-    }
 
 //    @Test
-
     public  void  storeJsonArray(){
 
         JSONArray jsonArray = new JSONArray();

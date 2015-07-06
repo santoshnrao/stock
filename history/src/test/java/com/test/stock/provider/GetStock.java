@@ -9,8 +9,7 @@ import org.junit.Test;
 import sun.util.calendar.BaseCalendar;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.*;
 
 
 /**
@@ -47,6 +46,20 @@ public class GetStock {
 
         System.out.println(quoteHistoricData);
         Assert.assertNotNull(quoteHistoricData);
+    }
+    @Test
+    public void getBulkStockHistory(){
+        List<String> stocks = new ArrayList<>();
+        stocks.add("YHOO");
+        stocks.add("AAPL");
+        stocks.add("N");
+        Calendar startDate = new GregorianCalendar(2014,3,1);
+        Calendar endDate = new GregorianCalendar(2015,2,1);
+
+        String bulkHistory = yQL.getHistoricStock(stocks, startDate, endDate);
+        System.out.println(bulkHistory);
+        Assert.assertNotNull(bulkHistory);
+
     }
 
 }

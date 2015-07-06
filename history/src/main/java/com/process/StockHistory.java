@@ -18,12 +18,8 @@ import java.util.GregorianCalendar;
  */
 public class StockHistory implements Runnable{
 
-    private StockExtractor _stockExtractor = new StockExtractor();
     private int extractionIntervalUnit = Calendar.YEAR;
     private int extractionInterval = 1; // Max of one year is supported :-(
-    private ManageCollection manageCollection = new ManageCollection();
-
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("YYYY-MM-dd");
 
 
     private String _stockID ;
@@ -36,13 +32,21 @@ public class StockHistory implements Runnable{
     }
 
     public void updateStockInfo(String StockID){
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("YYYY-MM-dd");
+
         Calendar currentDate = new GregorianCalendar();
-        JSONArray stockDataList = new JSONArray();
-        JSONObject stockInfo = new JSONObject();
-        stockInfo.put(ManageCollection.COLUMN_STOCK_SYMBOL,StockID);
-        stockInfo.put(ManageCollection.COLUMN_STOCK_END_DATE, dateFormatter.format(currentDate.getTime()));
-        stockDataList.put(stockInfo);
-        manageCollection.upsertStockInfo(stockDataList);
+
+        ManageCollection manageCollection = new ManageCollection();
+        JSONArray stockList = manageCollection.getStockInfo(StockID);
+        if(stockList.length() > 0){
+            JSONObject stockInfo = stockList.getJSONObject(0);
+            stockInfo.remove(ManageCollection.COLUMN_ID);
+            stockInfo.put(ManageCollection.COLUMN_STOCK_END_DATE, dateFormatter.format(currentDate.getTime()));
+            manageCollection.updateStockInfo(stockInfo);
+        }
+
+
     }
 
     /**
@@ -73,6 +77,7 @@ public class StockHistory implements Runnable{
 
             /************ Update records ****************/
             if(stockPrices != null){
+                ManageCollection manageCollection = new ManageCollection();
                 manageCollection.insertStock(stockPrices);
             }else{
                 /************ If there are no further information exit ****************/
@@ -96,10 +101,13 @@ public class StockHistory implements Runnable{
      * @return stockPrices
      */
     private JSONArray getStockPrices(String StockID, Calendar startDate, Calendar endDate){
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("YYYY-MM-dd");
         String output = "Extraction .. " + StockID + " : " +
                         dateFormatter.format(startDate.getTime()) + " - " +
                         dateFormatter.format(endDate.getTime());
         System.out.println(output);
+        StockExtractor _stockExtractor = new StockExtractor();
+
         return _stockExtractor.getHistoricStockData(StockID,startDate,endDate);
 
     }

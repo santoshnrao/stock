@@ -2,6 +2,8 @@ package com.db.mongo;
 
 /**
  * Created by i029249 on 6/28/15.
+ * Wrapper on Mongo db java library classes
+ *
  */
 
 import com.mongodb.*;
@@ -14,8 +16,6 @@ import org.json.JSONObject;
 
 import java.util.*;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 public class MongoConnect {
 
 
@@ -24,14 +24,15 @@ public class MongoConnect {
 
     //Constants
     private  final String _DB_NAME = "test";
-    private final String _DB_STOCK_TABLE = "stock";
-    private final String _DB_STOCK_INFO  = "stockinfo";
+
+    private static MongoConnect oneInstance  ;
 
     /**
      * constructor
      */
-    public MongoConnect(){
+    private MongoConnect(){
         connectMongo();
+        oneInstance = this;
     }
 
     /**
@@ -45,12 +46,19 @@ public class MongoConnect {
 
     }
 
+    public static MongoConnect getMongoConnect(){
+        if(oneInstance == null){
+            oneInstance = new MongoConnect();
+        }
+        return oneInstance;
+    }
+
     /**
-     * find the by a key value
-     * @param collectionName
-     * @param key
-     * @param value
-     * @return
+     * find the object a key value
+     * @param collectionName Collection Name
+     * @param key Key Value
+     * @param value Value
+     * @return Found Table in JsonArray format
      */
     public JSONArray findByKey(String collectionName, String key, String value){
 
@@ -84,11 +92,28 @@ public class MongoConnect {
     }
 
     /**
-     * udpate a collection by the key provided
+     * Fidn a collection by Query Parameter
      * @param collectionName
-     * @param key
-     * @param jsonObject
+     * @param query
      * @return
+     */
+    private FindIterable<Document> findCollecitonByQuery(String collectionName, BasicDBObject query){
+
+        MongoCollection table = _db.getCollection(collectionName);
+        FindIterable<Document> queryResult;
+        queryResult = table.find(query);
+
+        return queryResult;
+
+
+    }
+
+    /**
+     * udpate a collection by the key provided
+     * @param collectionName Collection Name
+     * @param key Key
+     * @param jsonObject document in JSON Format
+     * @return Success or failure
      */
     public boolean updateCollectionByKey(String collectionName, String key, JSONObject jsonObject){
 
@@ -133,11 +158,6 @@ public class MongoConnect {
         return jsonArray;
     }
 
-    public boolean storeData(){
-        _storeStockData("sampleData");
-        return  true;
-    }
-
     public boolean upsertDocument(String collectionName , String key, JSONArray jsonArray){
         // Get Collection
         com.mongodb.DBCollection collection = _mongoClient.getDB(_DB_NAME).getCollection(collectionName);
@@ -166,29 +186,8 @@ public class MongoConnect {
         }
         // execute bulk operation on mycol collection
         BulkWriteResult result =bulkWriteOperation.execute();
-        System.out.print(result.toString());
+        //System.out.print(result.toString());
         return  true;
-    }
-
-
-    private boolean _storeStockData(String sStockData){
-
-        MongoCollection table = _db.getCollection(_DB_STOCK_TABLE);
-        Document doc = new Document("stockid", "APPL");
-        doc.append("date", "1980-01-01");
-        doc.append("open", 1);
-        doc.append("high", 2);
-        doc.append("low", 2);
-        doc.append("close", 2);
-        doc.append("volume", 2);
-        doc.append("adj_vol", 2);
-
-
-
-        table.insertOne(doc);
-
-
-        return true;
     }
 
     /**
@@ -210,31 +209,15 @@ public class MongoConnect {
             return false;
         }
 
-
-
         return true;
 
     }
 
-    public boolean storeJsonArrray(JSONArray jsonArray){
-
-        MongoCollection table = _db.getCollection(_DB_STOCK_TABLE);
-
-        List<Document> listDocument = convertJsonArrayToDocumentList(jsonArray);
-
-        try {
-            table.insertMany(listDocument);
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-
-
-
-        return true;
-
-    }
-
+    /**
+     * drop a collection
+     * @param collectionName
+     * @return
+     */
     public boolean dropCollection(String collectionName){
         _db.getCollection(collectionName).drop();
         return  true;

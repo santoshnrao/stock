@@ -66,8 +66,8 @@ public class StockInfoUpdateTest {
 
         ManageCollection manageCollection = new ManageCollection();
         // Clear data
-        manageCollection.dropStockInfo();
-        manageCollection.dropStockData();
+        //manageCollection.dropStockInfo();
+        //manageCollection.dropStockData();
 
         boolean status = new StockInformation().updateStockListData();
          status = new StockHistoryRun().updateAllStocksToCurrentDate();

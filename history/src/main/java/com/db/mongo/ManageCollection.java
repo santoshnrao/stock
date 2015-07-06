@@ -11,7 +11,7 @@ import javax.inject.Inject;
 public class ManageCollection {
 
 
-    private MongoConnect mongoConnect = new MongoConnect();
+    private MongoConnect mongoConnect =  MongoConnect.getMongoConnect();
 
     public static final String TABLE_STOCK = "stock";
     public static final String TABLE_STOCK_INFO = "stock_info";
@@ -20,6 +20,7 @@ public class ManageCollection {
     public static final String COLUMN_STOCK_SYMBOL = "Symbol";
     public static final String COLUMN_STOCK_END_DATE = "End_Date";
     public static final String COLUMN_STOCK_START_DATE = "Start_Date";
+    public static final String COLUMN_ID = "_id";
 
 
     public boolean insertStock(JSONArray jsonArray){

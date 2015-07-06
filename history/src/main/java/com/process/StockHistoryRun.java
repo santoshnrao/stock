@@ -31,7 +31,7 @@ public class StockHistoryRun {
 
     private ArrayList<StockHistory> runningThreads = new ArrayList<>();
 
-    private static final int _MAX_THREAD_NUMBER  = 10 ;
+    private static final int _MAX_THREAD_NUMBER  = 50 ;
 
     public void setextractionIntervalUnit(int interval){
         extractionIntervalUnit = interval;
@@ -55,22 +55,48 @@ public class StockHistoryRun {
     }
 
     public boolean runThreadsSafe(){
-        ExecutorService threadPool = Executors.newFixedThreadPool(_MAX_THREAD_NUMBER);
 
 
         //Spinoff threads
-        for(StockHistory thread:runningThreads){
-            //
-            // thread.start();
-            threadPool.execute(thread);
-        }
+        int threadCount = runningThreads.size();
+        int currentRuning = 0;
+        int i ;
+        do {
 
-        threadPool.shutdown();
-        try {
-            threadPool.awaitTermination(1, TimeUnit.HOURS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+            ExecutorService threadPool = Executors.newFixedThreadPool(_MAX_THREAD_NUMBER);
+
+            for( i = 0 ; i < _MAX_THREAD_NUMBER * 2  ; i++){
+                if( currentRuning + i > threadCount){
+                    break;
+                }
+                threadPool.execute(runningThreads.get(currentRuning + i));
+            }
+
+            currentRuning = currentRuning + i;
+
+            threadPool.shutdown();
+            try {
+                threadPool.awaitTermination(1, TimeUnit.HOURS);
+            } catch (InterruptedException e) {
+//                e.printStackTrace();
+                System.out.println("Thread terminated Max wait time");
+            }
+
+
+
+        }while ( threadCount >= currentRuning );
+//        for(StockHistory thread:runningThreads){
+//            //
+//            // thread.start();
+//            threadPool.execute(thread);
+//        }
+
+//        threadPool.shutdown();
+//        try {
+//            threadPool.awaitTermination(1, TimeUnit.HOURS);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         return  true;
     }
