@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 public class StockListExtractorTest {
 
-    @Test
+//    @Test
     public void getStockAndPersistTest(){
         JSONArray stockList = new StockListExtractor().getStockList();
         Assert.assertNotNull(stockList);

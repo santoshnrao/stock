@@ -11,7 +11,7 @@ import org.junit.Test;
  */
 public class FtpReadTest {
 
-    @Test
+//    @Test
     public void readFileFromFTP(){
 
         Ftp ftp = new Ftp();
@@ -25,7 +25,7 @@ public class FtpReadTest {
 
     }
 
-    @Test
+//    @Test
     public void getStockListTest(){
         JSONArray jsonArray =  new StockListExtractor().getStockList();
         Assert.assertNotNull(jsonArray);

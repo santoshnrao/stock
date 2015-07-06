@@ -61,7 +61,7 @@ public class StockInfoUpdateTest {
         Assert.assertEquals(status,true);
     }
 
-    @Test
+//    @Test
     public  void stockHistoryExtractForAll(){
 
         ManageCollection manageCollection = new ManageCollection();

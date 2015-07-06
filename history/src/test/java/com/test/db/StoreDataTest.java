@@ -29,28 +29,6 @@ public class StoreDataTest {
     }
 
 //    @Test
-    public  void  storeJsonArray(){
-
-        JSONArray jsonArray = new JSONArray();
-
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.append("stock_id", "APPL");
-        jsonObject.append("high", 20.11);
-        jsonArray.put(jsonObject);
-
-        jsonObject = new JSONObject();
-        jsonObject.append("stock_id", "YHOO");
-        jsonObject.append("high", 20.11);
-
-        jsonArray.put(jsonObject);
-
-
-        boolean status =  _mongoConnect.storeJsonArrray(jsonArray);
-        Assert.assertEquals(status, true);
-    }
-
-
-//    @Test
     public void insertStockInfoTest(){
         JSONArray jsonArray = new JSONArray();
         JSONObject stockInfo = new JSONObject();
@@ -105,7 +83,7 @@ public class StoreDataTest {
         Assert.assertEquals(status,true);
     }
 
-    @Test
+//    @Test
     public void buldUpsertTest(){
 
         JSONObject stockInfoYahoo = new JSONObject();

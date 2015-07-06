@@ -22,7 +22,7 @@ public class StockExtractorTest {
     private Calendar endDate = new GregorianCalendar(2012,1,1);
 
 
-    @Before
+//    @Before
     public void setup(){
         String a  = "tt";
     }

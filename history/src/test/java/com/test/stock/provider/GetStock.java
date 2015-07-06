@@ -20,7 +20,7 @@ public class GetStock {
     private YahooQL yQL = null ;
     private final  String _TEST_STOCK_SYMBOL = "YHOO";
 
-    @Before
+//    @Before
     public void setup(){
         yQL = new YahooQL();
     }
@@ -47,7 +47,7 @@ public class GetStock {
         System.out.println(quoteHistoricData);
         Assert.assertNotNull(quoteHistoricData);
     }
-    @Test
+//    @Test
     public void getBulkStockHistory(){
         List<String> stocks = new ArrayList<>();
         stocks.add("YHOO");
